@@ -12,13 +12,14 @@ function Text:getSize(constraints)
     return {width = width, height = height}
 end
 
+-- function Text:draw(w)
 function Text:draw(term, constraints)
     local size = self:getSize(constraints)
     for i = 0, size.height - 1 do
         term.setCursorPos(self.x, self.y + i)
         term.setBackgroundColor(self.bgColor)
         term.setTextColor(self.fgColor)
-        term.write(string.sub(self.string, i * size.width, (i + 1) * size.width))
+        term.write(string.sub(self.string, i * size.width + 1, (i + 1) * size.width))
     end
     self.width = size.width
     self.height = size.height

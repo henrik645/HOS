@@ -2,7 +2,8 @@ local Component = require("component")
 
 HStack = Component:new {
     spacing = 1,
-    align = "left"
+    align = "left",
+    bgColor = colors.white,
 }
 
 function HStack:getSize(constraints)
@@ -20,29 +21,48 @@ function HStack:getSize(constraints)
     return { width = maxWidth, height = height }
 end
 
-function HStack:draw(term, constraints)
-    local currY = self.y
-    local maxWidth = 0
+function HStack:draw(parentElem, constraints)
+    self:adjustSize(constraints)
     local size = self:getSize(constraints)
-    local stackWidth = size.width
-
-    for i = 1, #self.children do
-        local child = self.children[i]
+    local w = window.create(parentElem, self.dx, self.dy, self.width, self.height)
+    local currY = 1
+    for i, child in ipairs(self.children) do
+        child:adjustSize(constraints)
         if self.align == "left" then
-            child.x = self.x
+            child.dx = 0
         elseif self.align == "center" then
-            child.x = self.x + (stackWidth - child:getSize(constraints).width) / 2
+            child.dx = math.ceil((size.width - child.width) / 2)
         end
-        if child.width > maxWidth then
-            maxWidth = child.width
-        end
-        child.y = currY
         currY = currY + child.height + self.spacing
-        child:draw(term, constraints)
+        childConstraints = {maxWidth = w.width, maxHeight = w.height}
+        term.setCursorPos(5, 5)
+        child:draw(w, childConstraints)
     end
 
-    self.height = size.height
-    self.width = size.width
+    -- local currY = self.y
+    -- local maxWidth = 0
+    -- local size = self:getSize(constraints)
+    -- local stackWidth = size.width
+    -- stackWidth = constraints.maxWidth
+
+    -- for i = 1, #self.children do
+    --     local child = self.children[i]
+    --     local childSize = child:getSize(constraints)
+    --     if self.align == "left" then
+    --         child.x = self.x
+    --     elseif self.align == "center" then
+    --         child.x = self.x + math.ceil((stackWidth - child:getSize(constraints).width) / 2)
+    --     end
+    --     if child.width > maxWidth then
+    --         maxWidth = child.width
+    --     end
+    --     child.y = currY
+    --     currY = currY + childSize.height + self.spacing
+    --     child:draw(term, constraints)
+    -- end
+
+    -- self.height = size.height
+    -- self.width = size.width
 end
 
 return HStack

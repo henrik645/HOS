@@ -49,8 +49,8 @@ end
 function Window:draw()
     local cw = self.contentsWindow
     local constraints = {
-        maxWidth = self.width,
-        maxHeight = self.height
+        maxWidth = self.width - 2, -- -2 to compensate for border width
+        maxHeight = self.height - 2
     }
 
     self:drawBorder()

@@ -45,15 +45,24 @@ local stack = HStack:new {
 }
 
 local stack2 = HStack:new {
-    x = 10,
-    y = 2,
+    -- x = 10,
+    -- y = 2,
     align = "left",
     children = {
-        Text:new { string = "Hejsan jag heter Henrik och det har ar en lang string hejsafasdf" }
+        HStack:new {
+            align = "left",
+            children = {
+                Text:new { string = "Hejsan jag heter Henrik och det har ar en lang string hejsafasdf" },
+                Text:new { string = "Click OK" }
+            }
+        },
+        -- PaddedView:new { wrapped = Text:new { string = "Click Cancel" }}
+        Text:new { string = "Click Cancel" }
     }
 }
 
-appWindow.children = { PaddedView:new{wrapped = stack} }
+appWindow.children = { PaddedView:new{wrapped = stack2} }
+-- appWindow.children = {stack2}
 
 local desktop = Desktop:new {
     children = {

@@ -17,6 +17,8 @@ end
 function PaddedView:draw(term, constraints)
     self.wrapped.x = self.x + self.padding
     self.wrapped.y = self.y + self.padding
+    constraints.maxWidth = constraints.maxWidth - self.padding * 2
+    constraints.maxHeight = constraints.maxHeight - self.padding * 2
     self.wrapped:draw(term, constraints)
     self.width = self.wrapped.width + self.padding * 2
     self.height = self.wrapped.height + self.padding * 2
